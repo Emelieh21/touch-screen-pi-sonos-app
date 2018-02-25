@@ -3,7 +3,7 @@ This repo explains how I made a simple R Shiny app that allows to basic function
 
 ![image](assets/rpi_kit.jpg)
 
-##Install an on screen virtual keyboard
+## Install an on screen virtual keyboard
 
 If you look for a virtual keyboard for your raspberry Pi touchscreen, there are two that are often mentioned and used by pi users (a reboot might be required after installation):
 
@@ -29,7 +29,7 @@ In case you have installed Florence and you notice the keyboard is giving errors
 
 I have tried both keyboards, and I personally prefer the Florence keyboard since it overlays for example the browser pages, whereas on my pi the matchbox keyboard resizes the pages to half of the (already quite tiny) screen.
 
-##Install Node.js and npm
+## Install Node.js and npm
 
 For some reason the pre-installed raspian on my pi3 came without npm (Node Package Manager) installed, so first of all, I needed to install Node.js and npm (v6). These instructions are based on the official Node.js documentation, that can be found [here](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions).
 
@@ -41,7 +41,7 @@ Now, to proceed with the installation, simply run:
 
 Once ready, to make sure that Node.js has been properly installed, you can check the version with the command `node -v`. Same happens with npm; find out the current version running `npm -v`.
 
-##Install the Sonos HTTP API
+## Install the Sonos HTTP API
 
 On the next steps we will be getting ready the excellent [Sonos HTTP API](https://github.com/jishi/node-sonos-http-api) from [Jimmy Shimizu](https://github.com/jishi).
 
@@ -65,7 +65,7 @@ This one will send a request to your sonos to say something:
 This one will turn the volume up to 75%:
 `http://localhost:5005/volume/75`
 
-##Play music from Spotify and TuneIn radio
+## Play music from Spotify and TuneIn radio
 
 **Spotify**
 
@@ -98,9 +98,9 @@ The following URL plays **The Bluegrass Mix**:
 
 `http://localhost:5005/tunein/play/103851`
 
-##Installing R & the R shiny package
+## Installing R & the R shiny package
 
-Installing R on the raspberry Pi3 is incredebly easy:
+Installing R on the raspberry Pi3 is easy:
 
 `sudo apt-get install r-base`
 
@@ -112,7 +112,7 @@ Inside R, you can install the shiny package with the following command:
 
 `> install.packages("shiny")`
 
-##Installing xdotools
+## Installing xdotools
 
 My plan was to hang the pi & screen on the wall and have the app running in fullscreen, so I can use it as a controller for the sonos system. I wanted it to be possible to exit the fullscreen mode from the pi itself (in other words: to press F11 without having to attach an external keyboard). For this reason I installed xdotools, it is a very light weight program that allows to send function key commands through the terminal.
 
@@ -120,7 +120,7 @@ To install xdotools, run:
 
 `$ sudo apt-get install xdotool`
 
-##Run the R shiny sonosApp
+## Run the R shiny sonosApp
 
 The [app.R](app.R) script included in this repo, runs a R shiny app that contains some **basic buttons** (Fullscreen, Play, Pause, Next), buttons for my two **radio stations** (Radio10, M80), a **search bar** with which you can search for songs, albums and playlists and a slider for the **volume control**. Unfortunately, it is not possible yet to open the keyboard in fullscreen mode - so the fullscreen button should always be pressed before the keyboard button. To make the app functional again after typing, close the keyboard. The app.R script uses the Florence keyboard (if you want to use matchbox-keyboard instead, replace `system("florence")` with `system("matchbox-keyboard")` in the script).
 
