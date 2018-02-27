@@ -9,7 +9,7 @@ ui <- fluidPage(
   includeCSS("www/css/keyboard.css"),
   includeCSS("www/css/jquery-ui.min.css"),
 	tags$br(),
-	div(tags$img(src="logo.jpg", width="auto",height="60px"),style="text-align:center;"),
+	div(tags$img(src="logo.jpg", width="auto",height="55px"),style="text-align:center;"),
 	tags$hr(),
 	actionButton("f11","Fullscreen", style='padding:4px; font-size:150%'),
 	actionButton("play","Play", icon = icon("play"), style='padding:4px; font-size:150%'),
@@ -19,14 +19,14 @@ ui <- fluidPage(
 	actionButton("m80","M80", style='padding:4px; font-size:150%'),
 	actionButton("quit","", icon = icon("power-off")),
 	tags$hr(),
-  fluidRow(style='padding:4px; font-size:150%',
+  fluidRow(style='padding:4px; font-size:100%',
            # ugly work around until I fix the keyboard input...
            column(3,textInput("search_term","Search: "),textInput("text"," ",placeholder = "Keyboard")),
            column(6,radioButtons("type", "", inline = TRUE, choices = c("song","album","playlist"))),
            column(3,tags$br(),actionButton("go","Go!",icon = icon("music"), style='padding:4px; font-size:100%'))
   ),
 	tags$br(),
-	div(style='padding:4px; font-size:150%',
+	div(style='padding:4px; font-size:100%',
 		sliderInput("volume","Volume",min=0,max=100,value=c(0,20),ticks = FALSE, width = "85%")
 	))
 
