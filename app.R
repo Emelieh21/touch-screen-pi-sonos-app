@@ -1,10 +1,16 @@
 library(shiny)
 
 ui <- fluidPage(
+  # Js scripts needed for the touch screen keyboard
+  includeScript("www/js/jquery-latest.min.js"),
+  includeScript("www/js/jquery-ui.min.js"),
+  includeScript("www/js/jquery.keyboard.js"),
+  includeScript("www/js/demo.js"),
+  includeCSS("www/css/keyboard.css"),
+  includeCSS("www/css/jquery-ui.min.css"),
 	tags$br(),
-	div(tags$img(src="logo.jpg", width="auto",height="65px"),style="text-align:center;"),
+	div(tags$img(src="logo.jpg", width="auto",height="70px"),style="text-align:center;"),
 	tags$hr(),
-	actionButton("keyboard","Keyboard", style='color: darkgrey; background: grey; padding:4px; font-size:150%'),
 	actionButton("f11","Fullscreen", style='padding:4px; font-size:150%'),
 	actionButton("play","Play", icon = icon("play"), style='padding:4px; font-size:150%'),
 	actionButton("pause","Pause", icon = icon("pause"), style='padding:4px; font-size:150%'),
@@ -14,19 +20,16 @@ ui <- fluidPage(
 	actionButton("quit","", icon = icon("power-off")),
 	tags$hr(),
 	fluidRow(style='padding:4px; font-size:150%',
-		column(3,textInput("search_term","Search: ")),
+		column(3,textInput("text","Search: ")),
 		column(6,radioButtons("type", "", inline = TRUE, choices = c("song","album","playlist"))),
 		column(3,tags$br(),actionButton("go","Go!",icon = icon("music"), style='padding:4px; font-size:100%'))
 	),
 	tags$br(),
 	div(style='padding:4px; font-size:150%',
-		sliderInput("volume","Volume",min=0,max=100,value=c(0,20),ticks = FALSE)
+		sliderInput("volume","Volume",min=0,max=100,value=c(0,20),ticks = FALSE, width = "85%")
 	))
 
 server <- function(input, output){
-	observeEvent(input$keyboard, {
-	system("florence")
-	})
 	observeEvent(input$play,  {
 	system('curl "http://localhost:5005/play"')
 	})
@@ -44,7 +47,7 @@ server <- function(input, output){
 	})
 	observeEvent(input$go, {
 	type <- input$type
-	term <- gsub("\\ ","+",input$search_term)
+	term <- gsub("\\ ","+",input$text)
 	req = paste0('curl "','http://localhost:5005/musicsearch/spotify/',
 		as.character(type),'/',term,'"')
 	system(req)
