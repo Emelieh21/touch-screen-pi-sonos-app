@@ -19,11 +19,12 @@ ui <- fluidPage(
 	actionButton("m80","M80", style='padding:4px; font-size:150%'),
 	actionButton("quit","", icon = icon("power-off")),
 	tags$hr(),
-	fluidRow(style='padding:4px; font-size:150%',
-		column(3,textInput("text","Search: ")),
-		column(6,radioButtons("type", "", inline = TRUE, choices = c("song","album","playlist"))),
-		column(3,tags$br(),actionButton("go","Go!",icon = icon("music"), style='padding:4px; font-size:100%'))
-	),
+  fluidRow(style='padding:4px; font-size:150%',
+           # ugly work around until I fix the keyboard input...
+           column(3,textInput("search_term","Search: "),textInput("text"," ",placeholder = "Keyboard")),
+           column(6,radioButtons("type", "", inline = TRUE, choices = c("song","album","playlist"))),
+           column(3,tags$br(),actionButton("go","Go!",icon = icon("music"), style='padding:4px; font-size:100%'))
+  ),
 	tags$br(),
 	div(style='padding:4px; font-size:150%',
 		sliderInput("volume","Volume",min=0,max=100,value=c(0,20),ticks = FALSE, width = "85%")
@@ -46,11 +47,11 @@ server <- function(input, output){
 	system('curl "http://localhost:5005/tunein/play/48753"')
 	})
 	observeEvent(input$go, {
-	type <- input$type
-	term <- gsub("\\ ","+",input$text)
-	req = paste0('curl "','http://localhost:5005/musicsearch/spotify/',
-		as.character(type),'/',term,'"')
-	system(req)
+	  type <- input$type
+	  term <- gsub("\\ ","+",input$search_term)
+	  req = paste0('curl "','http://localhost:5005/musicsearch/spotify/',
+	               as.character(type),'/',term,'"')
+	  system(req)
 	})
 	observeEvent(input$volume, {
 	vol = input$volume[2]
