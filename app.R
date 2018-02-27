@@ -9,7 +9,7 @@ ui <- fluidPage(
   includeCSS("www/css/keyboard.css"),
   includeCSS("www/css/jquery-ui.min.css"),
 	tags$br(),
-	div(tags$img(src="logo.jpg", width="auto",height="70px"),style="text-align:center;"),
+	div(tags$img(src="logo.jpg", width="auto",height="60px"),style="text-align:center;"),
 	tags$hr(),
 	actionButton("f11","Fullscreen", style='padding:4px; font-size:150%'),
 	actionButton("play","Play", icon = icon("play"), style='padding:4px; font-size:150%'),
