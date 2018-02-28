@@ -174,12 +174,21 @@ If you want to make the app accessible for other computers, or use a fixed port,
 
 `$ runApp("/home/pi/<DIRECTORY>" host="0.0.0.0", port=1234)`
 
+## About the virtual keyboard
+
+The integrated virtual keyboard is a jQuery on-screen keyboard (OSK) plugin that works in the browser. Originally posted by Jeremy Satterfield in his [blog](http://jsatt.blogspot.com/2010/01/on-screen-keyboard-widget-using-jquery.html), [jQuery plugins](http://plugins.jquery.com/project/virtual_keyboard) and on [Snipplr](http://snipplr.com/view/21577/virtual-keyboard-widget/). Currently maintained by [Mottie](https://github.com/Mottie/Keyboard).For more information, see the keyboards' repository [here](https://github.com/Mottie/Keyboard). 
+
+## About the current track information
+
+To be able to extract the current track information, one extra package is needed: jsonlite. It can be installed with `install.packages("jsonlite")`. Currently the track information updates when a song ends naturally, but it does not when a user changes what is playing on the Sonos. For this the refresh button can be used for now, until the script is optimized.
 
 
 ![image](assets/picture.jpg)
 
 ### To Do
 
-* Add in a true integrated virtual keyboard
+* ~~Add in a true integrated virtual keyboard~~
+* ~~Display the currently playing song~~
+* Optimize script to update the current song information automatically
 * TuneIn radio integration; make it possible to look up stations
 * Remove the first input from the volume slider (useless)
