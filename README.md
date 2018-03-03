@@ -112,6 +112,8 @@ Inside R, you can install the shiny package with the following command:
 
 `> install.packages("shiny")`
 
+Unlike when I install a R package on the PC, on the Raspberry Pi I get asked from which mirror I want to install. I just picked the first one. 
+
 ## Installing xdotools
 
 My plan was to hang the pi & screen on the wall and have the app running in fullscreen, so I can use it as a controller for the sonos system. I wanted it to be possible to exit the fullscreen mode from the pi itself (in other words: to press F11 without having to attach an external keyboard). For this reason I installed xdotools, it is a very light weight program that allows to send function key commands through the terminal.
@@ -126,7 +128,7 @@ The [app.R](app.R) script included in this repo, runs a R shiny app that contain
 
 To give a minimal example of how shiny interacts with the node-sonos-http-api, see the example_app.R script below. 
 
-_example_app.R_
+[_example_app.R_](dev/example_app.R)
 
 ```R
 library(shiny)
@@ -158,6 +160,10 @@ server <- function(input, output){
 shinyApp(ui,server)
 ```
 
+Here is what this simple example app looks like:
+
+![image](assets/example_app_picture.jpg)
+
 To run the an R shiny app on the pi, open the terminal and open R:
 
 `$ R`
@@ -174,21 +180,44 @@ If you want to make the app accessible for other computers, or use a fixed port,
 
 `$ runApp("/home/pi/<DIRECTORY>" host="0.0.0.0", port=1234)`
 
+For more information about the `runApp()` function, check out [this link](https://shiny.rstudio.com/reference/shiny/latest/runApp.html). 
+
+If you want to run the app with **current track information**, a few small extra setup steps are needed, which are explained [below](#about-the-current-track-information) in the section about the current track information. If you want to run the app without the track info, you can run the [_app_no_track_info.R_](dev/app_no_track_info.R), located in the dev folder instead.
+
+Without the track info, the app looks like this:
+
+![image](assets/no_track_info_app_picture.jpg)
+
 ## About the virtual keyboard
 
 The integrated virtual keyboard is a jQuery on-screen keyboard (OSK) plugin that works in the browser. Originally posted by Jeremy Satterfield in his [blog](http://jsatt.blogspot.com/2010/01/on-screen-keyboard-widget-using-jquery.html), [jQuery plugins](http://plugins.jquery.com/project/virtual_keyboard) and on [Snipplr](http://snipplr.com/view/21577/virtual-keyboard-widget/). Currently maintained by [Mottie](https://github.com/Mottie/Keyboard).For more information, see the keyboards' repository [here](https://github.com/Mottie/Keyboard). 
 
+![image](assets/app_keyboard_open_picture.jpg)
+
 ## About the current track information
 
-To be able to extract the current track information, one extra package is needed: jsonlite. It can be installed with `install.packages("jsonlite")`. Currently the track information updates when a song ends naturally, but it does not when a user changes what is playing on the Sonos. For this the refresh button can be used for now, until the script is optimized.
+To enable the current track information, To be able to extract the current track information, one extra R package is needed: jsonlite. It can be installed with `install.packages("jsonlite")`. The jsonlite package installed without problem, however when running the app, R complains that the package "curl" could not be found and suggests to run `install.packages("curl")`. Unfortunately, this command gives the following error:
+
+![image](assets/curl_error.jpg)
+
+Eventhough curl is already pre-installed on the Pi, libcurl is not and the libcurl library is needed for using curl from other programs (see [curl vs. libcurl](https://daniel.haxx.se/docs/curl-vs-libcurl.html)). 
+
+To install libcurl on the Pi, run:
+
+`$ sudo apt-get install libcurl4-openssl-dev`
+
+Now open R and run `install.packages("curl")`. Now it should install smoothly. 
+
+Currently the track information updates when a song ends naturally, but it does not when a user changes what is playing on the Sonos. For this the **refresh button** can be used for now, until the script is optimized.
 
 
-![image](assets/picture.jpg)
+![image](assets/app_picture.jpg)
 
 ### To Do
 
 * ~~Add in a true integrated virtual keyboard~~
 * ~~Display the currently playing song~~
 * Optimize script to update the current song information automatically
+* Make it possible to dim the screen
 * TuneIn radio integration; make it possible to look up stations
 * Remove the first input from the volume slider (useless)
