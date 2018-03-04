@@ -6,8 +6,7 @@ values <- reactiveValues(track = NULL,
                          artist = NULL, 
                          album = NULL, 
                          image = NULL,
-                         time_left = NULL,
-                         type = NULL)
+                         time_left = NULL)
 #### UI ####
 ui <- fluidPage(
   # Include JS scripts ####
@@ -104,7 +103,6 @@ server <- function(input, output, session){
     values$artist <- current$currentTrack$artist
     values$album <- current$currentTrack$album
     values$image <- current$currentTrack$absoluteAlbumArtUri
-    values$type <- current$currentTrack$type
   })
   observeEvent(input$refresh, {
     current <- fromJSON("http://localhost:5005/state")
@@ -113,38 +111,21 @@ server <- function(input, output, session){
     values$artist <- current$currentTrack$artist
     values$album <- current$currentTrack$album
     values$image <- current$currentTrack$absoluteAlbumArtUri
-    values$type <- current$currentTrack$type
   })
   output$now_playing <- renderUI({
     getCurrent()
-    if (values$type != "radio"){ # display artist, track & album for tracks
-      tags$table(
-        tags$tr(
-          tags$td(tags$img(src=values$image, width="100px")),
-          tags$td(tags$br()),
-          tags$td(style = "padding:10px;", div(
-            tags$b(values$artist),tags$br(),
-            tags$b(values$track),tags$br(),
-            tags$b(values$album),tags$br(),
-            tags$b(actionButton("refresh",label="",icon=icon("refresh")))
-          ))
-        )
+    tags$table(
+      tags$tr(
+        tags$td(tags$img(src=values$image, width="100px")),
+        tags$td(tags$br()),
+        tags$td(style = "padding:10px;", div(
+          tags$b(values$artist),tags$br(),
+          tags$b(values$track),tags$br(),
+          tags$b(values$album),tags$br(),
+          tags$b(actionButton("refresh",label="",icon=icon("refresh")))
+        ))
       )
-    } else { # display just the radio station and track for (unpaused) radio
-      if (!grepl("x-sonosapi-stream",values$track)){
-        tags$table(
-          tags$tr(
-            tags$td(tags$img(src=values$image, width="100px")),
-            tags$td(tags$br()),
-            tags$td(style = "padding:10px;", div(
-              tags$b(values$artist),tags$br(),
-              tags$b(values$track),tags$br(),
-              tags$b(actionButton("refresh",label="",icon=icon("refresh")))
-            ))
-          )
-        )
-      }  
-    }
+    )
   })
 }
 
