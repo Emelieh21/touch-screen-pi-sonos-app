@@ -27,7 +27,7 @@ In case you have installed Florence and you notice the keyboard is giving errors
 
 `sudo apt-get install at-spi2-core`
 
-I have tried both keyboards, and I personally prefer the Florence keyboard since it overlays for example the browser pages, whereas on my pi the matchbox keyboard resizes the pages to half of the (already quite tiny) screen.
+I have tried both keyboards, and I personally prefer the Matchbox keyboard, since the Florence keyboard seems to be a bit buggy from time to time (gets stuck when pressing CNTR or ALT), at least this is the experience I had with my pi.
 
 ## Install Node.js and npm
 
@@ -88,7 +88,7 @@ _settings.json_
 
 **TuneIn Radio**
 
-TuneIn does not require any setup or credentials. At this moment, the app includes just two buttons to switch directly to the radio stations that I play the most (**Radio10** and **M80**). I did not integrate an option yet to search through radio stations. However, you can play any radio station that is on TuneIn if you know its station id. You can find tunein station ids via services like [radiotime](http://opml.radiotime.com/). If you visit this link you will find the information about the radio stations formatted like this:
+TuneIn does not require any setup or credentials. At this moment, the app includes just two buttons to switch directly to the radio stations that I play the most (**Radio10** and **M80**). You can play any radio station that is on TuneIn if you know its station id. You can find tunein station ids via services like [radiotime](http://opml.radiotime.com/). If you visit this link you will find the information about the radio stations formatted like this:
 
 ```
 <outline URL="http://opml.radiotime.com/Tune.ashx?id=s103851" text="The Bluegrass Mix" type="audio" guide_id="s103851" preset_id="s103851" now_playing_id="s103851" image="http://cdn-radiotime-logos.tunein.com/s103851q.png" item="station" formats="mp3" genre_id="g63" subtext="Into The Blue" reliability="10" bitrate="128" current_track="Into The Blue" show_id="p410211"/>
@@ -97,6 +97,8 @@ TuneIn does not require any setup or credentials. At this moment, the app includ
 The following URL plays **The Bluegrass Mix**:
 
 `http://localhost:5005/tunein/play/103851`
+
+It is now possible to look up radio stations with the search bar, however, this functionality is currently still in a primitive state. You can put a search term, select the button in front of `radio`, and press `Go!`.  It searches through the radios included in the [tuneIn_stations](assets/tuneIn_stations.rds) dataset and selects one of the stations that matches the search term at **random**. 
 
 ## Installing R & the R shiny package
 
@@ -194,6 +196,8 @@ The integrated virtual keyboard is a jQuery on-screen keyboard (OSK) plugin that
 
 ![image](assets/app_keyboard_open_picture.jpg)
 
+> Currently, I am still working on a solution to make R detect the text that is put in to the search bar automatically. For the time being, this is fixed in the script with a bit of an ugly work around, using a `updateTextInput()` and a `session$reload()` to "force" R to reread the text from the input field.
+
 ## About the current track information
 
 Currently, the main version of the app (the [app.R](app.R) file), does **not** include the current track information, since it turned out to make my pi run into **memory problems**. However, you can find the app including current track information in the dev folder (see the [app_with_track_information.R](dev/app_with_track_information.R) file). To enable the current track information, one extra R package is needed: jsonlite. It can be installed with `install.packages("jsonlite")`. The jsonlite package installed without problem, however when running the app, R complains that the package "curl" could not be found and suggests to run `install.packages("curl")`. Unfortunately, this command gives the following error:
@@ -219,5 +223,5 @@ Currently the track information updates when a song ends naturally, but it does 
 * ~~Display the currently playing song~~
 * Optimize script to update the current song information automatically
 * Make it possible to dim the screen
-* TuneIn radio integration; make it possible to look up stations
+* ~~TuneIn radio integration; make it possible to look up stations~~
 * Remove the first input from the volume slider (useless)
