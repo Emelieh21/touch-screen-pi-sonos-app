@@ -182,7 +182,7 @@ If you want to make the app accessible for other computers, or use a fixed port,
 
 For more information about the `runApp()` function, check out [this link](https://shiny.rstudio.com/reference/shiny/latest/runApp.html). 
 
-If you want to run the app with **current track information**, a few small extra setup steps are needed, which are explained [below](#about-the-current-track-information) in the section about the current track information. If you want to run the app without the track info, you can run the [_app_no_track_info.R_](dev/app_no_track_info.R), located in the dev folder instead.
+If you want to run the app with **current track information**, a few small extra setup steps are needed, which are explained [below](#about-the-current-track-information) in the section about the current track information. 
 
 Without the track info, the app looks like this:
 
@@ -196,7 +196,7 @@ The integrated virtual keyboard is a jQuery on-screen keyboard (OSK) plugin that
 
 ## About the current track information
 
-To enable the current track information, To be able to extract the current track information, one extra R package is needed: jsonlite. It can be installed with `install.packages("jsonlite")`. The jsonlite package installed without problem, however when running the app, R complains that the package "curl" could not be found and suggests to run `install.packages("curl")`. Unfortunately, this command gives the following error:
+Currently, the main version of the app (the [app.R](app.R) file), does **not** include the current track information, since it turned out to make my pi run into **memory problems**. However, you can find the app including current track information in the dev folder (see the [app_with_track_information.R](dev/app_with_track_information.R) file). To enable the current track information, one extra R package is needed: jsonlite. It can be installed with `install.packages("jsonlite")`. The jsonlite package installed without problem, however when running the app, R complains that the package "curl" could not be found and suggests to run `install.packages("curl")`. Unfortunately, this command gives the following error:
 
 ![image](assets/curl_error.jpg)
 

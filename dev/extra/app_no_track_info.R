@@ -1,7 +1,5 @@
 library(shiny)
 
-tuneIn <- readRDS("assets/tuneIn_stations.rds")
-
 ui <- fluidPage(
   # Js scripts needed for the touch screen keyboard
   includeScript("www/js/jquery-latest.min.js"),
@@ -25,7 +23,7 @@ ui <- fluidPage(
            # the text input did not update with the input from the touch screen
            # keyboard. For now fixed with an updateTextInput in the server.
            column(3,textInput("text","Search: ")),
-           column(6,radioButtons("type", "", inline = TRUE, choices = c("song","album","playlist","radio"))),
+           column(6,radioButtons("type", "", inline = TRUE, choices = c("song","album","playlist"))),
            column(3,tags$br(),actionButton("go","Go!",icon = icon("music"), style='padding:4px; font-size:100%'))
   ),
   tags$br(),
@@ -51,28 +49,14 @@ server <- function(input, output, session){
   })
   observeEvent(input$go, {
     # forcing shiny to get the latest input from the textInput
-    print("Test")
     updateTextInput(session, "text", label="Search: ")
-    session$reload() # this is an ugly solution, but currently the forced input refresh 
-    # seems to work only once...
   })
   observeEvent(input$text, {
     type <- input$type
-    if (type != "radio") {
-      term <- gsub("\\ ","+",input$text)
-      req = paste0('curl "','http://localhost:5005/musicsearch/spotify/',
+    term <- gsub("\\ ","+",input$text)
+    req = paste0('curl "','http://localhost:5005/musicsearch/spotify/',
                  as.character(type),'/',term,'"')
-      system(req)
-    }  else {
-      print(input$text)
-      radio_selection <- subset(tuneIn, grepl(tolower(input$text),tolower(tuneIn$name)))
-      print(radio_selection)
-      random_radio <- sample(c(1:length(radio_selection$id)),1)
-      random_radio <- radio_selection$id[random_radio]
-      print(random_radio)
-      req = paste0('curl "','http://localhost:5005/tunein/play/',random_radio,'"')
-      system(req)
-    }
+    system(req)
   })
   observeEvent(input$volume, {
     vol = input$volume[2]
