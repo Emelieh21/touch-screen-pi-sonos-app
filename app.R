@@ -68,7 +68,7 @@ server <- function(input, output, session){
       radio_selection <- subset(tuneIn, grepl(tolower(input$text),tolower(tuneIn$name)))
       print(radio_selection)
       random_radio <- sample(c(1:length(radio_selection$id)),1)
-      random_radio_name <- radio_selection$id[random_radio]
+      random_radio_name <- radio_selection$name[random_radio]
       random_radio <- radio_selection$id[random_radio]
       random_radio_name <- gsub('[[:punct:] ]+',' ',random_radio_name )
       random_radio_name <- gsub("\\ ","%20",random_radio_name )
