@@ -81,7 +81,7 @@ server <- function(input, output, session){
     }
   })
   observeEvent(input$volume, {
-    vol = input$volume[2]
+    vol = input$volume
     req = paste0('curl "','http://localhost:5005/volume/',
                  as.character(vol),'"')
     system(req)
