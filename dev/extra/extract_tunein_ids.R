@@ -17,7 +17,7 @@ setwd("D:/touch-screen-pi-sonos-app/assets")
 previous_stations <- readRDS("tuneIn_stations.rds")
 all_stations <- previous_stations
 
-term = "Ritmo 95.7"
+term = "Radio 10"
 
 radio <- read_html(paste0("http://tunein.com/search/?query=",term))
 links <- radio %>% 
@@ -157,6 +157,16 @@ for (genre in dat$genres) {
 all_stations$id <- gsub("s","",all_stations$id)
 saveRDS(all_stations, "tuneIn_stations.rds")
 
+
+### ADD ONE NEW STATION
+dat <- as.data.frame("74982", stringsAsFactors = F)
+names(dat) <- "id"
+dat$genre <- "80s"
+dat$name <- "Radio10 - 80s Hits"
+dat$link <- "https://www.radio10.nl/"
+
+all_stations <- rbind(all_stations, dat)
+saveRDS(all_stations, "tuneIn_stations.rds")
 
 ## NOTES ####
 # select <- menu$links[menu$text=="By Location"]

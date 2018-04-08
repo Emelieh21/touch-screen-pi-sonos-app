@@ -30,7 +30,7 @@ ui <- fluidPage(
   ),
   tags$br(),
   div(style='padding:4px; font-size:100%',
-      sliderInput("volume","Volume",min=0,max=100,value=20,ticks = FALSE, width = "85%")
+      sliderInput("volume","Volume",min=0,max=100,value=c(0,20),ticks = FALSE, width = "85%")
   ))
 
 server <- function(input, output, session){
@@ -44,7 +44,7 @@ server <- function(input, output, session){
     system('curl "http://localhost:5005/next"')
   })
   observeEvent(input$radio10, {
-    system('curl "http://localhost:5005/tunein/play/16793"')
+    system('curl "http://localhost:5005/tunein/play/74982"')
   })
   observeEvent(input$m80, {
     system('curl "http://localhost:5005/tunein/play/48753"')
