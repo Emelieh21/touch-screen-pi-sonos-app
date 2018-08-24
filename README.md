@@ -196,7 +196,7 @@ The integrated virtual keyboard is a jQuery on-screen keyboard (OSK) plugin that
 
 ![image](assets/app_keyboard_open_picture.jpg)
 
-> Currently, I am still working on a solution to make R detect the text that is put in to the search bar automatically. For the time being, this is fixed in the script with a bit of an ugly work around, using a `updateTextInput()` and a `session$reload()` to "force" R to reread the text from the input field.
+To make it easier to use this virtual keyboard within R shiny apps, I made a R package out of it called [shinykeyboard](https://github.com/Emelieh21/shinykeyboard). The original javascript and css scripts can still be found in the code of this repo, but with the  shinykeyboard package the scripts don't need to be included into the app anymore.
 
 ## About the current track information
 

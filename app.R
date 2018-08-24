@@ -1,15 +1,12 @@
 library(shiny)
+library(shinykeyboard)
 
 tuneIn <- readRDS("assets/tuneIn_stations.rds")
 
+keyboard <- generateVirtualKeyboard("text")
+
 ui <- fluidPage(
-  # Js scripts needed for the touch screen keyboard
-  includeScript("www/js/jquery-latest.min.js"),
-  includeScript("www/js/jquery-ui.min.js"),
-  includeScript("www/js/jquery.keyboard.js"),
-  includeScript("www/js/demo.js"),
-  includeCSS("www/css/keyboard.css"),
-  includeCSS("www/css/jquery-ui.min.css"),
+  activateVirtualKeyboard(keyboard),
   tags$br(),
   div(tags$img(src="logo.jpg", width="auto",height="70px"),style="text-align:center;"),
   tags$hr(),
@@ -50,13 +47,6 @@ server <- function(input, output, session){
     system('curl "http://localhost:5005/tunein/play/48753"')
   })
   observeEvent(input$go, {
-    # forcing shiny to get the latest input from the textInput
-    print("Test")
-    updateTextInput(session, "text", label="Search: ")
-    session$reload() # this is an ugly solution, but currently the forced input refresh 
-    # seems to work only once...
-  })
-  observeEvent(input$text, {
     type <- input$type
     if (type != "radio") {
       term <- gsub("\\ ","+",input$text)
